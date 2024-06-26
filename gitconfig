@@ -3,15 +3,15 @@
   diff = auto
   interactive = auto
   status = auto
-  ui = auto
+  ui = true
 
 [color "branch"]
   current = green
   remote = yellow
 
 [core]
-  pager = less -FRSX
-  editor = code --wait
+  pager = delta
+  editor = vim 
 
 [alias]
   co = checkout
@@ -45,17 +45,27 @@
   # Removes a file from the index
   unstage = reset HEAD --
 
+[interactive]
+  diffFilter = delta -color-only
+
 [help]
   autocorrect = 1
-
-[push]
-  default = simple
-
-[branch "master"]
-  mergeoptions = --no-edit
 
 [pull]
   rebase = false
 
 [init]
-  defaultBranch = master
+  defaultBranch = main
+
+[delta]
+  navigate = true
+  light = false
+
+[merge]
+  conflictstyle = diff3
+
+[diff]
+  colerMoved = default
+[user]
+	email = marukohe@qq.com
+	name = He Wei

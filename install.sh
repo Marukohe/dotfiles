@@ -23,7 +23,7 @@ symlink() {
 
 # For all files `$name` in the present folder except `*.sh`, `README.md`, `settings.json`,
 # and `config`, backup the target file located at `~/.$name` and symlink `$name` to `~/.$name`
-for name in aliases gitconfig irbrc rspec zprofile zshrc; do
+for name in aliases gitconfig vimrc zprofile zshrc; do
   if [ ! -d "$name" ]; then
     target="$HOME/.$name"
     backup $target
@@ -31,35 +31,18 @@ for name in aliases gitconfig irbrc rspec zprofile zshrc; do
   fi
 done
 
-# Install zsh-syntax-highlighting plugin
+#Install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Install zsh-autosuggestions plugin
 CURRENT_DIR=`pwd`
 ZSH_PLUGINS_DIR="$HOME/.oh-my-zsh/custom/plugins"
 mkdir -p "$ZSH_PLUGINS_DIR" && cd "$ZSH_PLUGINS_DIR"
-if [ ! -d "$ZSH_PLUGINS_DIR/zsh-syntax-highlighting" ]; then
-  echo "-----> Installing zsh plugin 'zsh-syntax-highlighting'..."
+if [ ! -d "$ZSH_PLUGINS_DIR/zsh-autosuggestions" ]; then
+  echo "-----> Installing zsh plugin 'zsh-autosuggestions'..."
   git clone https://github.com/zsh-users/zsh-autosuggestions
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting
 fi
 cd "$CURRENT_DIR"
-
-# Symlink VS Code settings and keybindings to the present `settings.json` and `keybindings.json` files
-# If it's a macOS
-if [[ `uname` =~ "Darwin" ]]; then
-  CODE_PATH=~/Library/Application\ Support/Code/User
-# Else, it's a Linux
-else
-  CODE_PATH=~/.config/Code/User
-  # If this folder doesn't exist, it's a WSL
-  if [ ! -e $CODE_PATH ]; then
-    CODE_PATH=~/.vscode-server/data/Machine
-  fi
-fi
-
-for name in settings.json keybindings.json; do
-  target="$CODE_PATH/$name"
-  backup $target
-  symlink $PWD/$name $target
-done
 
 # Symlink SSH config file to the present `config` file for macOS and add SSH passphrase to the keychain
 if [[ `uname` =~ "Darwin" ]]; then
