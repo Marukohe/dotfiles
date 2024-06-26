@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 # Install some useful tools
 # This shell script needs sudo
 
