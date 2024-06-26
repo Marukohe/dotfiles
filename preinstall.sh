@@ -2,6 +2,8 @@
 # Install some useful tools
 # This shell script needs sudo
 
+apt-get update
+
 # Common developer tools
 echo "-----> Installing git vim build-essential cmake..."
 apt-get install git vim build-essential cmake -y
